@@ -1,4 +1,4 @@
-#matrix-tree-theorem
+# matrix-tree-theorem
 
 Implementation of the matrix tree theorem from graph theory.
 Used to calculate the number of spanning tree from an existing graph.
