@@ -28,7 +28,6 @@ def create_degree_matrix(g):
     dimension = len(g)
     count = 0
     np_arr = numpy.zeros([dimension, dimension], dtype=int)
-    print(np_arr)
     for node in g.keys():
         np_arr[count][count] = len(g[node][0].split(','))
         count += 1
@@ -53,5 +52,8 @@ if __name__ == '__main__':
     gr = construct_graph(nodeParts, edgeParts)
     degree_matrix = create_degree_matrix(gr.graph)
     adjacency_matrix = create_adjacency_matrix(gr.graph)
-    # TODO: implement laplacian matrix using numpy.subtract(arr1, arr2)
-    # TODO: implement determinant using numpy.linalg.det(arr)
+    laplacian_matrix = numpy.subtract(degree_matrix, adjacency_matrix)
+    det_matrix = numpy.delete(laplacian_matrix, 0, 0)
+    det_matrix = numpy.delete(det_matrix, 0, 1)
+    print(det_matrix)
+    print("Number of spanning trees: %d" %(numpy.linalg.det(det_matrix)))
