@@ -1,59 +1,32 @@
 import re
-import numpy
-import graph
+from typing import List
 
-def remove_spaces(line):
-    return line.replace(' ', '')
+from graph import Graph
+from util import PRINT_DELIMITER, remove_spaces
 
-def retrieve_nodes():
+
+def retrieve_nodes() -> List[str]:
     # uncomment for user input
     # nodeString = input("Enter list of nodes (ex: \"a, b, c\": ")
-    nodeString = "a, b, c, d, e, f, g, h, i"
+    nodeString = "a,b,c,d,e,f,g,h,i,j"
     nodeString = remove_spaces(nodeString)
     return re.split(',', nodeString)
 
-def retrieve_edge_nodes():
+
+def retrieve_edge_nodes() -> List[List[str]]:
     # uncomment for user input
     # edgeString = input("Enter list of edges nodes corresponding to the order of the nodes (ex: \"[b, c], [a, c], [a, b]\"): ")
-    edgeString = "[b, c, d, e], [a, c, d, e], [a, b, d, f, g], [a, b, c, e, f, g, h, i], " \
-                 "[a, b, d, h, i], [c, d], [c, d], [d, e], [d, e]"
+    edgeString = "[b,g],[a,c,f],[b,d,e],[c,e],[c,d,f],[b,e,g,i,j],[a,f,h],[g,i],[f,h,j],[f,i]"
     edgeString = remove_spaces(edgeString)
     edgeString = re.split('[\[\]]', edgeString)
-    return [[x] for x in edgeString if x != '' and x != ',']
+    return [x for x in edgeString if x != '' and x != ',']
 
-def construct_graph(nodes, edges):
-    return graph.Graph(nodes, edges)
-
-def create_degree_matrix(g):
-    dimension = len(g)
-    count = 0
-    np_arr = numpy.zeros([dimension, dimension], dtype=int)
-    for node in g.keys():
-        np_arr[count][count] = len(g[node][0].split(','))
-        count += 1
-    return np_arr
-
-def create_adjacency_matrix(g, ):
-    dimension = len(g)
-    count = 0
-    diff = ord('a')
-    np_arr = numpy.zeros([dimension, dimension], dtype=int)
-    for node in g.keys():
-        neighbors = g[node][0].split(',')
-        for neighbor_node in neighbors:
-            idx = ord(neighbor_node) - diff
-            np_arr[idx][count] = '1'
-        count += 1
-    return np_arr
 
 if __name__ == '__main__':
     nodeParts = retrieve_nodes()
     edgeParts = retrieve_edge_nodes()
-    gr = construct_graph(nodeParts, edgeParts)
-    degree_matrix = create_degree_matrix(gr.graph)
-    adjacency_matrix = create_adjacency_matrix(gr.graph)
-    laplacian_matrix = numpy.subtract(degree_matrix, adjacency_matrix)
-    det_matrix = numpy.delete(laplacian_matrix, 0, 0)
-    det_matrix = numpy.delete(det_matrix, 0, 1)
-    print(det_matrix)
-    print("Number of spanning trees: %d" %(numpy.linalg.det(det_matrix)))
+    gr = Graph(nodeParts, edgeParts)
+    laplacian_matrix = gr.laplacian_matrix
+    print("Laplacian Matrix:\n" + str(laplacian_matrix) + '\n' + PRINT_DELIMITER)
+    print("Number of spanning trees: %d" % gr.spanning_trees_count)
+    print(gr.incidence_matrix)
