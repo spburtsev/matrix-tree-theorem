@@ -1,32 +1,18 @@
-import re
-from typing import List
-
 from graph import Graph
-from util import PRINT_DELIMITER, remove_spaces
-
-
-def retrieve_nodes() -> List[str]:
-    # uncomment for user input
-    # nodeString = input("Enter list of nodes (ex: \"a, b, c\": ")
-    nodeString = "a,b,c,d,e,f,g,h,i,j"
-    nodeString = remove_spaces(nodeString)
-    return re.split(',', nodeString)
-
-
-def retrieve_edge_nodes() -> List[List[str]]:
-    # uncomment for user input
-    # edgeString = input("Enter list of edges nodes corresponding to the order of the nodes (ex: \"[b, c], [a, c], [a, b]\"): ")
-    edgeString = "[b,g],[a,c,f],[b,d,e],[c,e],[c,d,f],[b,e,g,i,j],[a,f,h],[g,i],[f,h,j],[f,i]"
-    edgeString = remove_spaces(edgeString)
-    edgeString = re.split('[\[\]]', edgeString)
-    return [x for x in edgeString if x != '' and x != ',']
-
+from test_data import ORDERED_GRAPH_WITHOUT_CYCLES, UNORDERED_GRAPH
+from util import PRINT_DELIMITER, parse_edge_nodes, parse_nodes
 
 if __name__ == '__main__':
-    nodeParts = retrieve_nodes()
-    edgeParts = retrieve_edge_nodes()
-    gr = Graph(nodeParts, edgeParts)
+    node_parts = parse_nodes(UNORDERED_GRAPH['nodes'])
+    edge_parts = parse_edge_nodes(UNORDERED_GRAPH['edges'])
+    gr = Graph(node_parts, edge_parts)
+
+    node_parts = parse_nodes(ORDERED_GRAPH_WITHOUT_CYCLES['nodes'])
+    edge_parts = parse_edge_nodes(ORDERED_GRAPH_WITHOUT_CYCLES['edges'])
+    gr2 = Graph(node_parts, edge_parts)
+
     laplacian_matrix = gr.laplacian_matrix
-    print("Laplacian Matrix:\n" + str(laplacian_matrix) + '\n' + PRINT_DELIMITER)
-    print("Number of spanning trees: %d" % gr.spanning_trees_count)
-    print(gr.incidence_matrix)
+    print('Laplacian Matrix:\n' + str(laplacian_matrix) + '\n' + PRINT_DELIMITER)
+    print('Number of spanning trees: %d' % gr.spanning_trees_count)
+    print(gr.incidence_matrix())
+    print(gr2.incidence_matrix(oriented=True))

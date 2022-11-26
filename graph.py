@@ -17,7 +17,7 @@ class Graph:
             other_nodes = value.split(',')
             for node in other_nodes:
                 if not _pair_in_list(pair=(key, node),
-                                     lst=self._edges):
+                                     lst=self._edges) and node != '':
                     self._edges.append((key, node))
 
     @property
@@ -48,13 +48,14 @@ class Graph:
                 np_arr[idx][i] = '1'
         return np_arr
 
-    @property
-    def incidence_matrix(self):
+    def incidence_matrix(self, oriented: bool = False):
         dimensions = [len(self._graph), len(self.edges)]
         np_arr = zeros(dimensions, dtype=int)
         for i, edge in enumerate(self.edges):
-            np_arr[ord(edge[0]) - ord('a')][i] = 1
-            np_arr[ord(edge[1]) - ord('a')][i] = 1
+            if node := edge[0]:
+                np_arr[ord(node) - ord('a')][i] = 1
+            if node := edge[1]:
+                np_arr[ord(node) - ord('a')][i] = -1 if oriented else 1
 
         return np_arr
 
