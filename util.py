@@ -8,13 +8,13 @@ def remove_spaces(line: str) -> str:
     return line.replace(' ', '')
 
 
-def parse_nodes(s: str) -> List[str]:
-    s = remove_spaces(s)
-    return split(',', s)
+def parse_nodes(text: str) -> List[str]:
+    text = remove_spaces(text)
+    return split(',', text)
 
 
-def parse_edge_nodes(s: str) -> List[str]:
-    s = remove_spaces(s)
-    items = split(r'[\[\]]', s)
+def parse_edge_nodes(text: str) -> List[str]:
+    text = remove_spaces(text)
+    items = split(r'[\[\]]', text)
     items = items[1:-1]
     return [x for x in items if x != ',']

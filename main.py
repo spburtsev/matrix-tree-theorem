@@ -19,7 +19,7 @@ if __name__ == '__main__':
 
     laplacian_matrix = graph.laplacian_matrix
     print('Laplacian Matrix:\n' + str(laplacian_matrix) + '\n' + PRINT_DELIMITER)
-    print('Number of spanning trees: %d' % graph.spanning_trees_count)
+    print(f'Number of spanning trees: {graph.spanning_trees_count}')
     print(graph.incidence_matrix())
     print(PRINT_DELIMITER)
     print(graph_2.incidence_matrix(oriented=True))
