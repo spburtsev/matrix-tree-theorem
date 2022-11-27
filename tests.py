@@ -1,7 +1,11 @@
 from unittest import TestCase
 
 from graph import Graph
-from test_data import UNORDERED_GRAPH_PARSED, UNORDERED_GRAPH
+from test_data import (UNORDERED_GRAPH, UNORDERED_GRAPH_ADJACENCY_MATRIX,
+                       UNORDERED_GRAPH_INCIDENCE_MATRIX,
+                       UNORDERED_GRAPH_PARSED,
+                       UNORDERED_GRAPH_WITH_LOOPS_ADJACENCY_MATRIX,
+                       UNORDERED_GRAPH_WITH_LOOPS_PARSED)
 from util import parse_edge_nodes, parse_nodes
 
 
@@ -48,6 +52,11 @@ class TestingGraph(TestCase):
         g = Graph(['a', 'b', 'c'], ['a,b,c', 'c', 'b'])
         self.assertEqual(len(g.edges), 4)
 
+    def test_graph_4(self):
+        g = Graph(UNORDERED_GRAPH_WITH_LOOPS_PARSED['nodes'],
+                  UNORDERED_GRAPH_WITH_LOOPS_PARSED['edges'])
+        self.assertEqual(len(g.edges), 8)
+
 
 class TestingSpanningTreesCount(TestCase):
     def test_st_1(self):
@@ -58,3 +67,49 @@ class TestingSpanningTreesCount(TestCase):
         g = Graph(UNORDERED_GRAPH_PARSED['nodes'],
                   UNORDERED_GRAPH_PARSED['edges'])
         self.assertEqual(g.spanning_trees_count, 418)
+
+
+class TestingAdjacencyMatrix(TestCase):
+    def test_am_1(self):
+        g = Graph(
+            UNORDERED_GRAPH_WITH_LOOPS_PARSED['nodes'],
+            UNORDERED_GRAPH_WITH_LOOPS_PARSED['edges'])
+        am = g.adjacency_matrix
+        for i, el in enumerate(am):
+            self.assertEqual(
+                list(el), UNORDERED_GRAPH_WITH_LOOPS_ADJACENCY_MATRIX[i])
+
+    def test_am_2(self):
+        g = Graph(UNORDERED_GRAPH_PARSED['nodes'],
+                  UNORDERED_GRAPH_PARSED['edges'])
+        am = g.adjacency_matrix
+        for i, el in enumerate(am):
+            self.assertEqual(list(el), UNORDERED_GRAPH_ADJACENCY_MATRIX[i])
+
+
+class TestingIncidenceMatrix(TestCase):
+    def test_im_1(self):
+        g = Graph(
+            ['a', 'b', 'c', 'd', 'e', 'f'],
+            ['b,e', 'a,c,e', 'b,d', 'c,e,f', 'a,b,d', 'd'])
+        im = g.incidence_matrix()
+
+        expected = [
+            [1, 1, 0, 0, 0, 0, 0],
+            [1, 0, 1, 1, 0, 0, 0],
+            [0, 0, 1, 0, 1, 0, 0],
+            [0, 0, 0, 0, 1, 1, 1],
+            [0, 1, 0, 1, 0, 1, 0],
+            [0, 0, 0, 0, 0, 0, 1],
+        ]
+        for i, el in enumerate(im):
+            self.assertEqual(list(el), expected[i])
+
+    def test_im_2(self):
+        g = Graph(
+            UNORDERED_GRAPH_PARSED['nodes'],
+            UNORDERED_GRAPH_PARSED['edges'])
+        im = g.incidence_matrix()
+
+        for i, el in enumerate(im):
+            self.assertEqual(list(el), UNORDERED_GRAPH_INCIDENCE_MATRIX[i])
