@@ -13,8 +13,8 @@ def parse_nodes(s: str) -> List[str]:
     return split(',', s)
 
 
-def parse_edge_nodes(s: str) -> List[List[str]]:
+def parse_edge_nodes(s: str) -> List[str]:
     s = remove_spaces(s)
-    items = split('[\[\]]', s)
+    items = split(r'[\[\]]', s)
     items = items[1:-1]
     return [x for x in items if x != ',']

@@ -67,4 +67,4 @@ class Graph:
     def spanning_trees_count(self):
         det_matrix = delete(self.laplacian_matrix, 0, 0)
         det_matrix = delete(det_matrix, 0, 1)
-        return linalg.det(det_matrix)
+        return int(linalg.det(det_matrix))
