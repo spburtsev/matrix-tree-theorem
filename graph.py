@@ -2,8 +2,8 @@ from typing import List, Dict, Tuple
 from numpy import zeros, subtract, delete, linalg
 
 
-def _pair_in_list(pair: Tuple[str, str], lst: List[Tuple[str, str]]) -> bool:
-    return pair in lst or (pair[1], pair[0]) in lst
+def _pair_in_list(pair: Tuple[str, str], items: List[Tuple[str, str]]) -> bool:
+    return pair in items or (pair[1], pair[0]) in items
 
 
 class Graph:
@@ -17,7 +17,7 @@ class Graph:
             other_nodes = value.split(',')
             for node in other_nodes:
                 if not _pair_in_list(pair=(key, node),
-                                     lst=self._edges) and node != '':
+                                     items=self._edges) and node != '':
                     self._edges.append((key, node))
 
     @property
@@ -40,24 +40,24 @@ class Graph:
     def adjacency_matrix(self):
         dimension = len(self._graph)
         diff = ord('a')
-        np_arr = zeros([dimension, dimension], dtype=int)
+        matrix = zeros([dimension, dimension], dtype=int)
         for i, node in enumerate(self._graph.keys()):
             neighbors = self._graph[node].split(',')
             for neighbor_node in neighbors:
-                idx = ord(neighbor_node) - diff
-                np_arr[idx][i] = '1'
-        return np_arr
+                row_index = ord(neighbor_node) - diff
+                matrix[row_index][i] = '1'
+        return matrix
 
     def incidence_matrix(self, oriented: bool = False):
         dimensions = [len(self._graph), len(self.edges)]
-        np_arr = zeros(dimensions, dtype=int)
+        matrix = zeros(dimensions, dtype=int)
         for i, edge in enumerate(self.edges):
             if node := edge[0]:
-                np_arr[ord(node) - ord('a')][i] = 1
+                matrix[ord(node) - ord('a')][i] = 1
             if node := edge[1]:
-                np_arr[ord(node) - ord('a')][i] = -1 if oriented else 1
+                matrix[ord(node) - ord('a')][i] = -1 if oriented else 1
 
-        return np_arr
+        return matrix
 
     @property
     def laplacian_matrix(self):

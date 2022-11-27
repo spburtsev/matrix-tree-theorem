@@ -31,68 +31,68 @@ class ParseNodesTest(TestCase):
         nodes = parse_nodes(UNORDERED_GRAPH['nodes'])
         egdes = parse_edge_nodes(UNORDERED_GRAPH['edges'])
 
-        g1 = Graph(nodes, egdes)
-        g2 = Graph(UNORDERED_GRAPH_PARSED['nodes'],
-                   UNORDERED_GRAPH_PARSED['edges'])
+        graph_1 = Graph(nodes, egdes)
+        graph_2 = Graph(UNORDERED_GRAPH_PARSED['nodes'],
+                        UNORDERED_GRAPH_PARSED['edges'])
 
-        self.assertEqual(g1.graph, g2.graph)
-        self.assertEqual(g1.edges, g2.edges)
+        self.assertEqual(graph_1.graph, graph_2.graph)
+        self.assertEqual(graph_1.edges, graph_2.edges)
 
 
 class TestingGraph(TestCase):
     def test_graph_1(self):
-        g = Graph(['a', 'b', 'c'], ['b', 'c', 'a'])
-        self.assertEqual(len(g.edges), 3)
+        graph = Graph(['a', 'b', 'c'], ['b', 'c', 'a'])
+        self.assertEqual(len(graph.edges), 3)
 
     def test_graph_2(self):
-        g = Graph(['a', 'b', 'c'], ['b,c', 'a,c', 'a,b'])
-        self.assertEqual(len(g.edges), 3)
+        graph = Graph(['a', 'b', 'c'], ['b,c', 'a,c', 'a,b'])
+        self.assertEqual(len(graph.edges), 3)
 
     def test_graph_3(self):
-        g = Graph(['a', 'b', 'c'], ['a,b,c', 'c', 'b'])
-        self.assertEqual(len(g.edges), 4)
+        graph = Graph(['a', 'b', 'c'], ['a,b,c', 'c', 'b'])
+        self.assertEqual(len(graph.edges), 4)
 
     def test_graph_4(self):
-        g = Graph(UNORDERED_GRAPH_WITH_LOOPS_PARSED['nodes'],
-                  UNORDERED_GRAPH_WITH_LOOPS_PARSED['edges'])
-        self.assertEqual(len(g.edges), 8)
+        graph = Graph(UNORDERED_GRAPH_WITH_LOOPS_PARSED['nodes'],
+                      UNORDERED_GRAPH_WITH_LOOPS_PARSED['edges'])
+        self.assertEqual(len(graph.edges), 8)
 
 
 class TestingSpanningTreesCount(TestCase):
     def test_st_1(self):
-        g = Graph(['a', 'b', 'c'], ['b', 'c', 'a'])
-        self.assertEqual(g.spanning_trees_count, 1)
+        graph = Graph(['a', 'b', 'c'], ['b', 'c', 'a'])
+        self.assertEqual(graph.spanning_trees_count, 1)
 
     def test_st_2(self):
-        g = Graph(UNORDERED_GRAPH_PARSED['nodes'],
-                  UNORDERED_GRAPH_PARSED['edges'])
-        self.assertEqual(g.spanning_trees_count, 418)
+        graph = Graph(UNORDERED_GRAPH_PARSED['nodes'],
+                      UNORDERED_GRAPH_PARSED['edges'])
+        self.assertEqual(graph.spanning_trees_count, 418)
 
 
 class TestingAdjacencyMatrix(TestCase):
     def test_am_1(self):
-        g = Graph(
+        graph = Graph(
             UNORDERED_GRAPH_WITH_LOOPS_PARSED['nodes'],
             UNORDERED_GRAPH_WITH_LOOPS_PARSED['edges'])
-        am = g.adjacency_matrix
-        for i, el in enumerate(am):
+        matrix = graph.adjacency_matrix
+        for i, el in enumerate(matrix):
             self.assertEqual(
                 list(el), UNORDERED_GRAPH_WITH_LOOPS_ADJACENCY_MATRIX[i])
 
     def test_am_2(self):
-        g = Graph(UNORDERED_GRAPH_PARSED['nodes'],
-                  UNORDERED_GRAPH_PARSED['edges'])
-        am = g.adjacency_matrix
-        for i, el in enumerate(am):
+        graph = Graph(UNORDERED_GRAPH_PARSED['nodes'],
+                      UNORDERED_GRAPH_PARSED['edges'])
+        matrix = graph.adjacency_matrix
+        for i, el in enumerate(matrix):
             self.assertEqual(list(el), UNORDERED_GRAPH_ADJACENCY_MATRIX[i])
 
 
 class TestingIncidenceMatrix(TestCase):
     def test_im_1(self):
-        g = Graph(
+        graph = Graph(
             ['a', 'b', 'c', 'd', 'e', 'f'],
             ['b,e', 'a,c,e', 'b,d', 'c,e,f', 'a,b,d', 'd'])
-        im = g.incidence_matrix()
+        matrix = graph.incidence_matrix()
 
         expected = [
             [1, 1, 0, 0, 0, 0, 0],
@@ -102,14 +102,14 @@ class TestingIncidenceMatrix(TestCase):
             [0, 1, 0, 1, 0, 1, 0],
             [0, 0, 0, 0, 0, 0, 1],
         ]
-        for i, el in enumerate(im):
+        for i, el in enumerate(matrix):
             self.assertEqual(list(el), expected[i])
 
     def test_im_2(self):
-        g = Graph(
+        graph = Graph(
             UNORDERED_GRAPH_PARSED['nodes'],
             UNORDERED_GRAPH_PARSED['edges'])
-        im = g.incidence_matrix()
+        matrix = graph.incidence_matrix()
 
-        for i, el in enumerate(im):
+        for i, el in enumerate(matrix):
             self.assertEqual(list(el), UNORDERED_GRAPH_INCIDENCE_MATRIX[i])
