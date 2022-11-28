@@ -69,3 +69,15 @@ UNORDERED_GRAPH_WITH_LOOPS_ADJACENCY_MATRIX = [
     [1, 1, 0, 1, 0, 0],
     [0, 0, 0, 1, 0, 0]
 ]
+
+MATRIX_THEOREM_UNDIRECTIONAL_GRAPH_PARSED = ParsedTestData(
+    nodes=['a', 'b', 'c', 'd'],
+    edges=['b,c', 'a,c', 'a,b,d', 'c']
+)
+MATRIX_THEOREM_UNDIRECTIONAL_GRAPH_ADJACENCY_MATRIX = [
+    [0, 1, 1, 0],
+    [1, 0, 1, 0],
+    [1, 1, 0, 1],
+    [0, 0, 1, 0],
+]
+MATRIX_THEOREM_UNDIRECTIONAL_GRAPH_SPANNING_TREES = 3

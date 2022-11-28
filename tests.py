@@ -1,7 +1,10 @@
 from unittest import TestCase
 
 from graph import Graph
-from test_data import (UNORDERED_GRAPH, UNORDERED_GRAPH_ADJACENCY_MATRIX,
+from test_data import (MATRIX_THEOREM_UNDIRECTIONAL_GRAPH_ADJACENCY_MATRIX,
+                       MATRIX_THEOREM_UNDIRECTIONAL_GRAPH_PARSED,
+                       MATRIX_THEOREM_UNDIRECTIONAL_GRAPH_SPANNING_TREES,
+                       UNORDERED_GRAPH, UNORDERED_GRAPH_ADJACENCY_MATRIX,
                        UNORDERED_GRAPH_INCIDENCE_MATRIX,
                        UNORDERED_GRAPH_PARSED,
                        UNORDERED_GRAPH_WITH_LOOPS_ADJACENCY_MATRIX,
@@ -68,6 +71,14 @@ class TestingSpanningTreesCount(TestCase):
                       UNORDERED_GRAPH_PARSED['edges'])
         self.assertEqual(graph.spanning_trees_count, 418)
 
+    def test_st_3(self):
+        graph = Graph(
+            MATRIX_THEOREM_UNDIRECTIONAL_GRAPH_PARSED['nodes'],
+            MATRIX_THEOREM_UNDIRECTIONAL_GRAPH_PARSED['edges']
+        )
+        self.assertEqual(graph.spanning_trees_count,
+                         MATRIX_THEOREM_UNDIRECTIONAL_GRAPH_SPANNING_TREES)
+
 
 class TestingAdjacencyMatrix(TestCase):
     def test_am_1(self):
@@ -85,6 +96,18 @@ class TestingAdjacencyMatrix(TestCase):
         matrix = graph.adjacency_matrix
         for i, el in enumerate(matrix):
             self.assertEqual(list(el), UNORDERED_GRAPH_ADJACENCY_MATRIX[i])
+
+    def test_am_3(self):
+        graph = Graph(
+            nodes=MATRIX_THEOREM_UNDIRECTIONAL_GRAPH_PARSED['nodes'],
+            edge_nodes=MATRIX_THEOREM_UNDIRECTIONAL_GRAPH_PARSED['edges']
+        )
+        matrix = graph.adjacency_matrix
+        for i, el in enumerate(matrix):
+            self.assertEqual(
+                list(el),
+                MATRIX_THEOREM_UNDIRECTIONAL_GRAPH_ADJACENCY_MATRIX[i]
+            )
 
 
 class TestingIncidenceMatrix(TestCase):
