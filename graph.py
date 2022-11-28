@@ -42,7 +42,8 @@ class Graph:
         diff = ord('a')
         matrix = zeros([dimension, dimension], dtype=int)
         for i, node in enumerate(self._graph.keys()):
-            neighbors = self._graph[node].split(',')
+            neighbors = values.split(',') if (
+                values := self._graph[node]) else []
             for neighbor_node in neighbors:
                 row_index = ord(neighbor_node) - diff
                 matrix[row_index][i] = '1'
